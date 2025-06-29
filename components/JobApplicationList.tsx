@@ -1,4 +1,3 @@
-import { JobApplication } from "@/convex/schema";
 import JobApplicationCard from "./JobApplicationCard";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
