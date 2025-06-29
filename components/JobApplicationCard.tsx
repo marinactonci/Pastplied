@@ -26,8 +26,40 @@ export default function JobApplicationCard({
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
+  const getStatusColors = (status: string) => {
+    switch (status) {
+      case "waiting":
+        return {
+          cardBorder: "border-l-orange-500 border-l-4",
+          statusText: "text-orange-600 bg-orange-50 dark:bg-orange-950 dark:text-orange-400",
+        };
+      case "interviewed":
+        return {
+          cardBorder: "border-l-blue-500 border-l-4",
+          statusText: "text-blue-600 bg-blue-50 dark:bg-blue-950 dark:text-blue-400",
+        };
+      case "rejected":
+        return {
+          cardBorder: "border-l-red-500 border-l-4",
+          statusText: "text-red-600 bg-red-50 dark:bg-red-950 dark:text-red-400",
+        };
+      case "accepted":
+        return {
+          cardBorder: "border-l-green-500 border-l-4",
+          statusText: "text-green-600 bg-green-50 dark:bg-green-950 dark:text-green-400",
+        };
+      default:
+        return {
+          cardBorder: "border-l-gray-500 border-l-4",
+          statusText: "text-gray-600 bg-gray-50 dark:bg-gray-950 dark:text-gray-400",
+        };
+    }
+  };
+
+  const statusColors = getStatusColors(status);
+
   return (
-    <Card className="w-full flex flex-col justify-between gap-4">
+    <Card className={`w-full flex flex-col justify-between gap-4 ${statusColors.cardBorder}`}>
       <CardHeader>
         <CardTitle className="flex justify-between items-start">
           <div>
@@ -52,7 +84,9 @@ export default function JobApplicationCard({
           </div>
           <div className="flex gap-2 text-sm">
             <span className="text-muted-foreground font-semibold">Status:</span>
-            <span className="capitalize">{status}</span>
+            <span className={`capitalize px-2 py-1 rounded-md text-xs font-medium ${statusColors.statusText}`}>
+              {status}
+            </span>
           </div>
 
           <div className="flex space-x-2 pt-4">

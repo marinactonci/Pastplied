@@ -37,9 +37,9 @@ export async function getJobListingData(url: string) {
     }
 
     return {
-      title: extractData.title || "",
-      company: extractData.company || "",
-      location: extractData.location || "",
+      title: extractData.title,
+      company: extractData.company,
+      location: extractData.location,
     };
   } catch (error) {
     console.error("AI extractJobInfoFromURL error:", error);
