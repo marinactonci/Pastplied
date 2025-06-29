@@ -1,3 +1,5 @@
+"use client";
+
 import { UserButton } from "@clerk/clerk-react";
 import { Authenticated, Unauthenticated } from "convex/react";
 import React from "react";

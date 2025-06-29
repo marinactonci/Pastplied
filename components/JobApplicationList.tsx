@@ -1,13 +1,17 @@
 import { JobApplication } from "@/convex/schema";
 import JobApplicationCard from "./JobApplicationCard";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
-interface JobApplicationListProps {
-  jobApplications: JobApplication[];
-}
+export default function JobApplicationList() {
+  const jobApplications = useQuery(
+    api.jobApplications.getJobApplicationsForUser,
+  );
 
-export default function JobApplicationList({
-  jobApplications,
-}: JobApplicationListProps) {
+  if (jobApplications === undefined) {
+    return <p className="text-muted-foreground">Loading...</p>;
+  }
+
   return (
     <div className="space-y-4 py-4">
       <h2 className="text-2xl font-semibold">Your Job Applications</h2>
