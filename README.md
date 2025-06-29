@@ -46,8 +46,8 @@ A modern job application tracking system that automatically extracts job details
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ApplyNote.git
-   cd ApplyNote
+   git clone https://github.com/yourusername/Pastplied.git
+   cd Pastplied
    ```
 
 2. **Install dependencies**
@@ -99,7 +99,7 @@ NEXT_PUBLIC_CONVEX_URL=your_convex_url
 ## 📁 Project Structure
 
 ```
-ApplyNote/
+Pastplied/
 ├── app/                    # Next.js app directory
 │   ├── api/               # API routes
 │   ├── globals.css        # Global styles
