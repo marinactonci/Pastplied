@@ -13,7 +13,7 @@ function Navbar() {
       <div className="container mx-auto px-4 flex justify-between">
         <div className="flex items-center gap-2">
           <Briefcase className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold">ApplyNote</h1>
+          <h1 className="text-xl font-bold">Pastplied</h1>
         </div>
         <div className="flex items-center gap-4">
           <ModeToggle />

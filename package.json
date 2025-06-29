@@ -14,9 +14,14 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.25.0",
     "@clerk/nextjs": "^6.12.6",
+    "@google/generative-ai": "^0.24.1",
+    "@hookform/resolvers": "^5.1.1",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
+    "cheerio": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.23.0",
@@ -27,7 +32,9 @@
     "react": "^19.0.0",
     "react-day-picker": "^9.7.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.1"
+    "react-hook-form": "^7.59.0",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
