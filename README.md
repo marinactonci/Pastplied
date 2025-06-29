@@ -139,6 +139,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 🔗 Links
 
 - **Live Demo**: [https://pastplied.vercel.app](https://pastplied.vercel.app)
-- **Portfolio**: [Portfolio](https://www.marinactonci.xyz/)
-- **LinkedIn**: [LinkedIn](https://www.linkedin.com/in/marinactonci/)
+- **Portfolio**: [https://www.marinactonci.xyz/](https://www.marinactonci.xyz/)
+- **LinkedIn**: [https://www.linkedin.com/in/marinactonci/](https://www.linkedin.com/in/marinactonci/)
 
