@@ -114,7 +114,7 @@ export default function UpdateJobButton({
         <DialogHeader>
           <DialogTitle>Update Job Application</DialogTitle>
           <DialogDescription>
-            Make changes to your job application. Click save when you're done.
+            Make changes to your job application. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
