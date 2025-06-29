@@ -38,6 +38,7 @@ If the provided link is not a job posting, return an empty string.
 You will be given a job posting HTML content.
 Languages that the job postings are in can vary so be aware of that.
 Typically, location is a city or can be a country but remote. In that case, it should be mentioned as "Country (Remote)".
+If the location is not specified, return "Not specified".
 From the following text, extract:
 
 - Job title
