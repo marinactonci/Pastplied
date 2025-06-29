@@ -12,7 +12,7 @@ export const getJobApplicationsForUser = query({
 
     const jobApplications = await ctx.db
       .query("jobApplication")
-      .filter((q) => q.eq(q.field("userId"), identity.tokenIdentifier))
+      .withIndex("by_user_applied_date", (q) => q.eq("userId", identity.tokenIdentifier))
       .order("desc")
       .collect();
 
