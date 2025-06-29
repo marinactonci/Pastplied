@@ -19,14 +19,14 @@ import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getJobListingData } from "@/lib/ai";
-import { jobApplicationFormSchema } from "@/schemas/schema";
+import { createJobSchema } from "@/schemas/createJobApplication";
 
 export default function JobApplicationForm() {
   const createJob = useMutation(api.jobApplications.createJobApplication);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof jobApplicationFormSchema>>({
-    resolver: zodResolver(jobApplicationFormSchema),
+  const form = useForm<z.infer<typeof createJobSchema>>({
+    resolver: zodResolver(createJobSchema),
     defaultValues: {
       jobLink: "",
       date: undefined,
@@ -34,7 +34,7 @@ export default function JobApplicationForm() {
   });
 
   const handleSubmit = async (
-    values: z.infer<typeof jobApplicationFormSchema>,
+    values: z.infer<typeof createJobSchema>,
   ) => {
     setIsLoading(true);
     try {

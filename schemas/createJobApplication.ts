@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const jobApplicationFormSchema = z.object({
+export const createJobSchema = z.object({
   jobLink: z
     .string()
     .url("Please enter a valid URL")

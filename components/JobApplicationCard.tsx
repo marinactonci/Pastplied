@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Edit } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { JobApplication } from "@/convex/schema";
 import { format } from "date-fns";
 import DeleteJobButton from "./DeleteJobButton";
+import UpdateJobButton from "./UpdateJobButton";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
 
@@ -16,10 +17,6 @@ export default function JobApplicationCard({
 }: JobApplicationCardProps) {
   const deleteJob = useMutation(api.jobApplications.deleteJobApplication);
   const { title, company, location, status, appliedDate, url } = job;
-
-  const onUpdate = () => {
-    console.log(`Update job: ${title}`);
-  };
 
   const onDelete = () => {
     deleteJob({ id: job._id });
@@ -64,10 +61,7 @@ export default function JobApplicationCard({
               <span>Details</span>
             </Button>
 
-            <Button variant="outline" size="sm" onClick={onUpdate}>
-              <Edit className="h-4 w-4" />
-              <span>Update</span>
-            </Button>
+            <UpdateJobButton jobId={job._id} currentJob={job} />
 
             <DeleteJobButton
               jobTitle={title}
