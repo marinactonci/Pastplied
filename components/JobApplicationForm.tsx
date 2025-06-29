@@ -64,12 +64,12 @@ export default function JobApplicationForm() {
     <div className="space-y-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className="flex items-center space-x-4 py-4">
+          <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 py-4">
             <FormField
               control={form.control}
               name="jobLink"
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem className="w-full md:flex-1">
                   <FormControl>
                     <Input
                       type="text"
@@ -85,7 +85,7 @@ export default function JobApplicationForm() {
               control={form.control}
               name="date"
               render={({ field, fieldState }) => (
-                <FormItem>
+                <FormItem className="w-full md:w-auto">
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -93,7 +93,7 @@ export default function JobApplicationForm() {
                           type="button"
                           variant="outline"
                           className={cn(
-                            "w-[280px] justify-start text-left font-normal",
+                            "w-full md:w-[280px] justify-start text-left font-normal",
                             !field.value && "text-muted-foreground",
                             fieldState.error && "border-destructive",
                           )}
@@ -122,6 +122,7 @@ export default function JobApplicationForm() {
             <Button
               type="submit"
               disabled={isLoading || !form.formState.isValid}
+              className="w-full md:w-auto"
             >
               {isLoading ? "Processing..." : "Submit"}
             </Button>
