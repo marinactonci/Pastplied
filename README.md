@@ -1,4 +1,4 @@
-# 📝 ApplyNote
+# 📝 Pastplied
 
 A modern job application tracking system that automatically extracts job details from URLs and helps you manage your job search efficiently.
 
@@ -138,7 +138,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🔗 Links
 
-- **Live Demo**: [Add your deployed URL here]
-- **Portfolio**: [Add your portfolio URL here]
-- **LinkedIn**: [Add your LinkedIn profile here]
+- **Live Demo**: [https://pastplied.vercel.app](https://pastplied.vercel.app)
+- **Portfolio**: [Portfolio](https://www.marinactonci.xyz/)
+- **LinkedIn**: [LinkedIn](https://www.linkedin.com/in/marinactonci/)
 
