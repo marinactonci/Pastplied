@@ -113,7 +113,7 @@ export default function JobApplicationCard({
             </span>
           </div>
 
-          <div className="flex space-x-2 pt-4">
+          <div className="flex flex-wrap gap-2 pt-4">
             <Button variant="outline" size="sm" onClick={handleDetailsClick}>
               <ExternalLink className="h-4 w-4" />
               <span>Details</span>

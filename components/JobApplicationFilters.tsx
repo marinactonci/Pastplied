@@ -203,7 +203,7 @@ export default function JobApplicationFiltersComponent({
         <div className="space-y-4">
           <div className="flex items-start flex-wrap gap-4">
             {/* Search Input - Made wider */}
-            <div className="space-y-1 min-w-[300px] flex-1">
+            <div className="space-y-1 min-w-[200px] flex-1">
               <label className="text-xs font-medium text-muted-foreground">
                 Search by Title or Company
               </label>

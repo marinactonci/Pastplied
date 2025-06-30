@@ -146,6 +146,8 @@ export const getFilteredJobApplicationsForUser = query({
     status: v.optional(v.string()),
     dateFrom: v.optional(v.string()),
     dateTo: v.optional(v.string()),
+    page: v.optional(v.number()),
+    pageSize: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -218,7 +220,23 @@ export const getFilteredJobApplicationsForUser = query({
       return dateComparison;
     });
 
-    return jobApplications;
+    // Calculate pagination
+    const page = args.page || 1;
+    const pageSize = args.pageSize || 9; // 3x3 grid
+    const totalCount = jobApplications.length;
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedJobs = jobApplications.slice(startIndex, endIndex);
+
+    return {
+      jobs: paginatedJobs,
+      totalCount,
+      totalPages,
+      currentPage: page,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
+    };
   },
 });
 
