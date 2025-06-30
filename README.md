@@ -20,7 +20,7 @@ A modern job application tracking system that automatically extracts job details
 - **[React 19](https://react.dev/)** - UI library
 - **[TypeScript](https://www.typescriptlang.org/)** - Type safety
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Radix UI](https://www.radix-ui.com/)** - Accessible UI components
+- **[Shadcn UI](https://ui.shadcn.com/)** - Accessible UI components
 - **[Lucide React](https://lucide.dev/)** - Beautiful icons
 
 ### Backend & Database
