@@ -11,7 +11,7 @@ import { Briefcase } from "lucide-react";
 
 function Navbar() {
   return (
-    <header className="sticky h-14 top-0 z-10 border-b shadow-sm grid place-items-center">
+    <header className="h-14 border-b shadow-sm grid place-items-center">
       <div className="container mx-auto px-4 flex justify-between">
         <div className="flex items-center gap-2">
           <Briefcase className="h-6 w-6 text-primary" />

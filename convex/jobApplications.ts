@@ -120,6 +120,101 @@ export const updateJobApplication = mutation({
   },
 });
 
+export const getFilteredJobApplicationsForUser = query({
+  args: {
+    searchText: v.optional(v.string()),
+    location: v.optional(v.string()),
+    status: v.optional(v.string()),
+    dateFrom: v.optional(v.string()),
+    dateTo: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("User is not authenticated");
+    }
+
+    let jobApplications = await ctx.db
+      .query("jobApplication")
+      .withIndex("by_user", (q) => q.eq("userId", identity.tokenIdentifier))
+      .collect();
+
+    // Apply filters
+    if (args.searchText && args.searchText.trim()) {
+      const searchLower = args.searchText.toLowerCase();
+      jobApplications = jobApplications.filter(job =>
+        (job.title?.toLowerCase().includes(searchLower) || false) ||
+        (job.company?.toLowerCase().includes(searchLower) || false)
+      );
+    }
+
+    if (args.location && args.location !== 'all') {
+      jobApplications = jobApplications.filter(job => job.location === args.location);
+    }
+
+    if (args.status && args.status !== 'all') {
+      jobApplications = jobApplications.filter(job => job.status === args.status);
+    }
+
+    if (args.dateFrom || args.dateTo) {
+      jobApplications = jobApplications.filter(job => {
+        if (!job.appliedDate) return false;
+
+        const jobDate = new Date(job.appliedDate);
+        let withinRange = true;
+
+        if (args.dateFrom) {
+          const fromDate = new Date(args.dateFrom);
+          withinRange = withinRange && jobDate >= fromDate;
+        }
+
+        if (args.dateTo) {
+          const toDate = new Date(args.dateTo);
+          toDate.setHours(23, 59, 59, 999); // Include the entire end date
+          withinRange = withinRange && jobDate <= toDate;
+        }
+
+        return withinRange;
+      });
+    }
+
+    // Sort by applied date (most recent first)
+    jobApplications.sort((a, b) => {
+      if (!a.appliedDate && !b.appliedDate) return b.createdAt - a.createdAt;
+      if (!a.appliedDate) return 1;
+      if (!b.appliedDate) return -1;
+      return new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+    });
+
+    return jobApplications;
+  },
+});
+
+export const getUniqueLocations = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("User is not authenticated");
+    }
+
+    const jobApplications = await ctx.db
+      .query("jobApplication")
+      .withIndex("by_user", (q) => q.eq("userId", identity.tokenIdentifier))
+      .collect();
+
+    const locations = jobApplications
+      .map(job => job.location)
+      .filter((location): location is string => Boolean(location))
+      .filter((location, index, array) => array.indexOf(location) === index)
+      .sort();
+
+    return locations;
+  },
+});
+
 export const deleteJobApplication = mutation({
   args: {
     id: v.id("jobApplication"),
