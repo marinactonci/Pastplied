@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { JobApplication } from "@/convex/schema";
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import DeleteJobButton from "./DeleteJobButton";
 import UpdateJobButton from "./UpdateJobButton";
 import { api } from "@/convex/_generated/api";
@@ -104,7 +104,7 @@ export default function JobApplicationCard({
             <span className="text-muted-foreground font-semibold">
               Applied:
             </span>
-            <span>{format(appliedDate!, "PPP")}</span>
+            <span>{format(appliedDate!, "PPP")} ({formatDistanceToNow(appliedDate!)} ago)</span>
           </div>
           <div className="flex gap-2 text-sm">
             <span className="text-muted-foreground font-semibold">Status:</span>
