@@ -196,7 +196,7 @@ export default function JobApplicationList() {
             </>
           ) : (
             <>
-              {resultCount} job application{resultCount !== 1 ? "s" : ""}
+              {resultCount} job application{resultCount !== 1 ? "s" : ""} total
             </>
           )}
         </p>
