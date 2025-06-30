@@ -234,7 +234,7 @@ export default function JobApplicationFiltersComponent({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Locations</SelectItem>
-                  {locations.map((location) => (
+                  {locations?.map((location) => (
                     <SelectItem key={location} value={location}>
                       {location}
                     </SelectItem>

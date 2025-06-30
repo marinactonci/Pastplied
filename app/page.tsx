@@ -8,20 +8,18 @@ import { JobApplicationProvider } from "@/contexts/JobApplicationContext";
 
 export default function Home() {
   return (
-    <>
-      <main>
-        <Authenticated>
-          <JobApplicationProvider>
-            <div className="container mx-auto py-6 px-4">
-              <JobApplicationForm />
-              <JobApplicationList />
-            </div>
-          </JobApplicationProvider>
-        </Authenticated>
-        <Unauthenticated>
-          <NotLoggedIn />
-        </Unauthenticated>
-      </main>
-    </>
+    <main>
+      <Authenticated>
+        <JobApplicationProvider>
+          <div className="container mx-auto py-6 px-4">
+            <JobApplicationForm />
+            <JobApplicationList />
+          </div>
+        </JobApplicationProvider>
+      </Authenticated>
+      <Unauthenticated>
+        <NotLoggedIn />
+      </Unauthenticated>
+    </main>
   );
 }

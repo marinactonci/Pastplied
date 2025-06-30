@@ -15,6 +15,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import NumberOfItemsForPagination from "./NumberOfItemsForPagination";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function JobApplicationList() {
   const [filters, setFilters] = useState<JobApplicationFilters>({
@@ -25,17 +26,17 @@ export default function JobApplicationList() {
     dateTo: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(9); // Default to 9 for 3x3 grid
+  const [pageSize, setPageSize] = useState(9);
 
   // Get filtered job applications with pagination
   const jobApplicationsResult = useQuery(
     api.jobApplications.getFilteredJobApplicationsForUser,
     {
-      searchText: filters.searchText || undefined,
-      location: filters.location === "all" ? undefined : filters.location,
-      status: filters.status === "all" ? undefined : filters.status,
-      dateFrom: filters.dateFrom || undefined,
-      dateTo: filters.dateTo || undefined,
+      searchText: filters.searchText,
+      location: filters.location,
+      status: filters.status,
+      dateFrom: filters.dateFrom,
+      dateTo: filters.dateTo,
       page: currentPage,
       pageSize: pageSize,
     },
@@ -69,10 +70,6 @@ export default function JobApplicationList() {
     (filters.status && filters.status !== "all") ||
     filters.dateFrom ||
     filters.dateTo;
-
-  if (!jobApplicationsResult || !locations) {
-    return <p className="text-muted-foreground">Loading...</p>;
-  }
 
   // Generate pagination items
   const generatePaginationItems = () => {
@@ -176,6 +173,10 @@ export default function JobApplicationList() {
 
     return items;
   };
+
+  if (!jobApplicationsResult || !locations) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="space-y-4 py-4">
