@@ -51,8 +51,8 @@ export default function JobApplicationList() {
   };
 
   // Reset to page 1 when page size changes
-  const handlePageSizeChange = (newPageSize: string) => {
-    setPageSize(parseInt(newPageSize));
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize);
     setCurrentPage(1);
   };
 
@@ -254,7 +254,7 @@ export default function JobApplicationList() {
                 <PaginationItem className="hidden md:block">
                   <NumberOfItemsForPagination
                     pageSize={pageSize}
-                    setPageSize={setPageSize}
+                    setPageSize={handlePageSizeChange}
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -262,7 +262,7 @@ export default function JobApplicationList() {
             <div className="flex md:hidden items-center gap-2 text-sm text-muted-foreground">
               <NumberOfItemsForPagination
                 pageSize={pageSize}
-                setPageSize={setPageSize}
+                setPageSize={handlePageSizeChange}
               />
             </div>
           </div>
