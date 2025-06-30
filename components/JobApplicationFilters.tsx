@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { JollyRangeCalendar } from "@/components/ui/range-calendar";
-import { Search, X, Filter, Calendar } from "lucide-react";
+import { Search, X, Filter, Calendar, Eye, EyeClosed } from "lucide-react";
 import { parseDate, CalendarDate } from "@internationalized/date";
 
 export interface JobApplicationFilters {
@@ -184,11 +184,16 @@ export default function JobApplicationFiltersComponent({
             </Button>
           )}
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
             className="h-8 px-2 text-xs"
           >
+            {isExpanded ? (
+              <EyeClosed className="size-4" />
+            ) : (
+              <Eye className="size-4" />
+            )}
             {isExpanded ? "Hide" : "Show"} Filters
           </Button>
         </div>
