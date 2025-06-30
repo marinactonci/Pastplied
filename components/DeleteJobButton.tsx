@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Trash2, LoaderCircleIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface DeleteJobButtonProps {
   jobTitle?: string;
@@ -25,11 +26,24 @@ export default function DeleteJobButton({
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setDeleteLoading(true);
-    onDelete();
-    setDeleteLoading(false);
-    setIsDeleteDialogOpen(false);
+    try {
+      await onDelete();
+      setIsDeleteDialogOpen(false);
+      toast.success("Application deleted", {
+        description: `${jobTitle || "Job application"} at ${company || "the company"} has been removed.`,
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error deleting job application:", error);
+      toast.error("Failed to delete application", {
+        description: "Please try again.",
+        duration: 4000,
+      });
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   return (

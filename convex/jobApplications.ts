@@ -12,9 +12,28 @@ export const getJobApplicationsForUser = query({
 
     const jobApplications = await ctx.db
       .query("jobApplication")
-      .withIndex("by_user_applied_date", (q) => q.eq("userId", identity.tokenIdentifier))
-      .order("desc")
+      .withIndex("by_user", (q) => q.eq("userId", identity.tokenIdentifier))
       .collect();
+
+    // Sort by applied date (most recent first), then by createdAt (most recent first) for same dates
+    jobApplications.sort((a, b) => {
+      // Handle cases where appliedDate might be missing
+      if (!a.appliedDate && !b.appliedDate) {
+        return b.createdAt - a.createdAt;
+      }
+      if (!a.appliedDate) return 1; // Put entries without applied date at the end
+      if (!b.appliedDate) return -1;
+
+      // Compare applied dates first
+      const dateComparison = new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+
+      // If applied dates are the same, sort by createdAt (most recent first)
+      if (dateComparison === 0) {
+        return b.createdAt - a.createdAt;
+      }
+
+      return dateComparison;
+    });
 
     return jobApplications;
   },
@@ -179,12 +198,24 @@ export const getFilteredJobApplicationsForUser = query({
       });
     }
 
-    // Sort by applied date (most recent first)
+    // Sort by applied date (most recent first), then by createdAt (most recent first) for same dates
     jobApplications.sort((a, b) => {
-      if (!a.appliedDate && !b.appliedDate) return b.createdAt - a.createdAt;
-      if (!a.appliedDate) return 1;
+      // Handle cases where appliedDate might be missing
+      if (!a.appliedDate && !b.appliedDate) {
+        return b.createdAt - a.createdAt;
+      }
+      if (!a.appliedDate) return 1; // Put entries without applied date at the end
       if (!b.appliedDate) return -1;
-      return new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+
+      // Compare applied dates first
+      const dateComparison = new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+
+      // If applied dates are the same, sort by createdAt (most recent first)
+      if (dateComparison === 0) {
+        return b.createdAt - a.createdAt;
+      }
+
+      return dateComparison;
     });
 
     return jobApplications;

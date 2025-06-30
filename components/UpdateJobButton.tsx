@@ -43,6 +43,7 @@ import { api } from "@/convex/_generated/api";
 import { JobApplication } from "@/convex/schema";
 import { Id } from "@/convex/_generated/dataModel";
 import { updateJobSchema } from "@/schemas/updateJobApplication";
+import { toast } from "sonner";
 
 interface UpdateJobButtonProps {
   jobId: Id<"jobApplication">;
@@ -87,9 +88,17 @@ export default function UpdateJobButton({
       setIsOpen(false);
       // Reset form with updated values
       form.reset(values);
+
+      toast.success("Application updated successfully!", {
+        description: `${values.title} at ${values.company} has been updated.`,
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Error updating job application:", error);
-      alert("Failed to update job application. Please try again.");
+      toast.error("Failed to update application", {
+        description: "Please try again.",
+        duration: 4000,
+      });
     } finally {
       setIsLoading(false);
     }

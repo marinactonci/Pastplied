@@ -120,3 +120,42 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Job Application Animations */
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.new-job-application {
+  animation: scaleIn 0.4s ease-out;
+}
+
+.new-job-card {
+  background-color: rgb(254 215 170 / 0.6); /* Darker orange background for light mode */
+  transition: all 0.3s ease;
+}
+
+.dark .new-job-card {
+  background-color: rgb(255 237 213 / 0.3); /* Lighter orange background for dark mode */
+}
+
+.new-job-card:hover {
+  background-color: transparent;
+}
+
+.new-job-badge {
+  transition: all 0.3s ease;
+}
+
+.new-job-card:hover .new-job-badge {
+  opacity: 0;
+  transform: scale(0.8);
+}

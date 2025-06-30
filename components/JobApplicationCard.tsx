@@ -7,6 +7,8 @@ import DeleteJobButton from "./DeleteJobButton";
 import UpdateJobButton from "./UpdateJobButton";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
+import { useJobApplicationContext } from "@/contexts/JobApplicationContext";
+import { cn } from "@/lib/utils";
 
 interface JobApplicationCardProps {
   job: JobApplication;
@@ -17,9 +19,17 @@ export default function JobApplicationCard({
 }: JobApplicationCardProps) {
   const deleteJob = useMutation(api.jobApplications.deleteJobApplication);
   const { title, company, location, status, appliedDate, url } = job;
+  const { isJobNewlyAdded, removeNewlyAddedJob } = useJobApplicationContext();
+  const isNewlyAdded = isJobNewlyAdded(job._id);
 
-  const onDelete = () => {
-    deleteJob({ id: job._id });
+  const handleMouseEnter = () => {
+    if (isNewlyAdded) {
+      removeNewlyAddedJob(job._id);
+    }
+  };
+
+  const onDelete = async () => {
+    await deleteJob({ id: job._id });
   };
 
   const handleDetailsClick = () => {
@@ -59,7 +69,21 @@ export default function JobApplicationCard({
   const statusColors = getStatusColors(status);
 
   return (
-    <Card className={`w-full flex flex-col justify-between gap-4 ${statusColors.cardBorder}`}>
+    <Card
+      className={cn(
+        "w-full flex flex-col justify-between gap-4 relative",
+        isNewlyAdded ? "new-job-card border-l-orange-500 border-l-4" : statusColors.cardBorder,
+        isNewlyAdded && "new-job-application"
+      )}
+      onMouseEnter={handleMouseEnter}
+    >
+      {isNewlyAdded && (
+        <span
+          className="new-job-badge absolute -top-1 -right-1 capitalize px-2 py-1 rounded-md text-xs font-medium text-orange-600 bg-orange-50 dark:bg-orange-950 dark:text-orange-400"
+        >
+          NEW
+        </span>
+      )}
       <CardHeader>
         <CardTitle className="flex justify-between items-start">
           <div>

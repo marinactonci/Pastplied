@@ -20,10 +20,13 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getJobListingData } from "@/lib/ai";
 import { createJobSchema } from "@/schemas/createJobApplication";
+import { toast } from "sonner";
+import { useJobApplicationContext } from "@/contexts/JobApplicationContext";
 
 export default function JobApplicationForm() {
   const createJob = useMutation(api.jobApplications.createJobApplication);
   const [isLoading, setIsLoading] = useState(false);
+  const { addNewlyAddedJob } = useJobApplicationContext();
 
   const form = useForm<z.infer<typeof createJobSchema>>({
     resolver: zodResolver(createJobSchema),
@@ -40,7 +43,7 @@ export default function JobApplicationForm() {
     try {
       const jobData = await getJobListingData(values.jobLink);
 
-      await createJob({
+      const newJobId = await createJob({
         url: values.jobLink,
         title: jobData?.title,
         company: jobData?.company,
@@ -51,10 +54,22 @@ export default function JobApplicationForm() {
         status: "waiting",
       });
 
+      // Add to newly added jobs for animation
+      addNewlyAddedJob(newJobId);
+
+      // Show success toast
+      toast.success("Application added successfully!", {
+        description: `${jobData?.title || "Job"} at ${jobData?.company || "Unknown Company"} has been added to your applications.`,
+        duration: 4000,
+      });
+
       form.reset();
     } catch (error) {
       console.error("Error creating job application:", error);
-      alert("Failed to create job application. Please try again.");
+      toast.error("Failed to add application", {
+        description: "Please check the job link and try again.",
+        duration: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
