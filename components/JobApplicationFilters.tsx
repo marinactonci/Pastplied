@@ -34,11 +34,31 @@ interface JobApplicationFiltersComponentProps {
 }
 
 const statusOptions = [
-  { value: "all", label: "All Statuses" },
-  { value: "waiting", label: "Waiting" },
-  { value: "interviewed", label: "Interviewed" },
-  { value: "rejected", label: "Rejected" },
-  { value: "accepted", label: "Accepted" },
+  {
+    value: "all",
+    icon: <div className="rounded-full size-2 bg-background invert"></div>,
+    label: "All Statuses",
+  },
+  {
+    value: "waiting",
+    icon: <div className="rounded-full size-2 bg-orange-500"></div>,
+    label: "Waiting",
+  },
+  {
+    value: "interviewed",
+    icon: <div className="rounded-full size-2 bg-blue-500"></div>,
+    label: "Interviewed",
+  },
+  {
+    value: "rejected",
+    icon: <div className="rounded-full size-2 bg-red-500"></div>,
+    label: "Rejected",
+  },
+  {
+    value: "accepted",
+    icon: <div className="rounded-full size-2 bg-green-500"></div>,
+    label: "Accepted",
+  },
 ];
 
 export default function JobApplicationFiltersComponent({
@@ -258,6 +278,7 @@ export default function JobApplicationFiltersComponent({
                 <SelectContent>
                   {statusOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
+                      {option.icon}
                       {option.label}
                     </SelectItem>
                   ))}
