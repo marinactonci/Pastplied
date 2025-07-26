@@ -36,6 +36,10 @@ export async function getJobListingData(url: string) {
       throw new Error(extractData.error);
     }
 
+    if (extractData.title === "Invalid job posting") {
+      return null;
+    }
+
     return {
       title: extractData.title,
       company: extractData.company,

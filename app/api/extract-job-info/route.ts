@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     if (!html) {
       return NextResponse.json(
         { error: "HTML content is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json(
         { error: "GEMINI_API_KEY is not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -48,6 +48,9 @@ From the following text, extract:
 Return the result as a pure string text with the data separated by comas in the following format:
 Job title, Company name, Location
 
+If any of the fields are not available, return an empty string for that field.
+If the job posting is not available, return a string with the value "Invalid job posting".
+
 Job posting text:
 """
 ${visibleText.slice(0, 10000)}
@@ -68,7 +71,7 @@ ${visibleText.slice(0, 10000)}
     console.error("AI extract job info error:", error);
     return NextResponse.json(
       { error: "Failed to extract job information" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

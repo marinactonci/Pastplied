@@ -36,12 +36,18 @@ export default function JobApplicationForm() {
     },
   });
 
-  const handleSubmit = async (
-    values: z.infer<typeof createJobSchema>,
-  ) => {
+  const handleSubmit = async (values: z.infer<typeof createJobSchema>) => {
     setIsLoading(true);
     try {
       const jobData = await getJobListingData(values.jobLink);
+
+      if (jobData === null) {
+        toast.warning("Invalid job posting", {
+          description: "Please check the job link and try again.",
+          duration: 5000,
+        });
+        return;
+      }
 
       const newJobId = await createJob({
         url: values.jobLink,
@@ -57,11 +63,20 @@ export default function JobApplicationForm() {
       // Add to newly added jobs for animation
       addNewlyAddedJob(newJobId);
 
-      // Show success toast
-      toast.success("Application added successfully!", {
-        description: `${jobData?.title || "Job"} at ${jobData?.company || "Unknown Company"} has been added to your applications.`,
-        duration: 4000,
-      });
+      // Check if title, company or location is missing
+      if (!jobData?.title || !jobData?.company || !jobData?.location) {
+        // Show warning toast
+        toast.warning("Some job details are missing", {
+          description: "Please refresh the page and try again.",
+          duration: 5000,
+        });
+      } else {
+        // Show success toast
+        toast.success("Application added successfully!", {
+          description: `${jobData?.title || "Job"} at ${jobData?.company || "Unknown Company"} has been added to your applications.`,
+          duration: 4000,
+        });
+      }
 
       form.reset();
     } catch (error) {
