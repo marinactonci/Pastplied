@@ -32,7 +32,7 @@ export default function JobApplicationForm() {
     resolver: zodResolver(createJobSchema),
     defaultValues: {
       jobLink: "",
-      date: undefined,
+      date: new Date(),
     },
   });
 
