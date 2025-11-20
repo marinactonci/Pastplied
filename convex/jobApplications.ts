@@ -19,17 +19,18 @@ export const getJobApplicationsForUser = query({
     jobApplications.sort((a, b) => {
       // Handle cases where appliedDate might be missing
       if (!a.appliedDate && !b.appliedDate) {
-        return b.createdAt - a.createdAt;
+        return b._creationTime - a._creationTime;
       }
       if (!a.appliedDate) return 1; // Put entries without applied date at the end
       if (!b.appliedDate) return -1;
 
       // Compare applied dates first
-      const dateComparison = new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+      const dateComparison =
+        new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
 
       // If applied dates are the same, sort by createdAt (most recent first)
       if (dateComparison === 0) {
-        return b.createdAt - a.createdAt;
+        return b._creationTime - a._creationTime;
       }
 
       return dateComparison;
@@ -89,7 +90,6 @@ export const createJobApplication = mutation({
       location: args.location,
       appliedDate: args.appliedDate,
       status: args.status,
-      createdAt: Date.now(),
     });
 
     return jobApplication;
@@ -164,22 +164,29 @@ export const getFilteredJobApplicationsForUser = query({
     // Apply filters
     if (args.searchText && args.searchText.trim()) {
       const searchLower = args.searchText.toLowerCase();
-      jobApplications = jobApplications.filter(job =>
-        (job.title?.toLowerCase().includes(searchLower) || false) ||
-        (job.company?.toLowerCase().includes(searchLower) || false)
+      jobApplications = jobApplications.filter(
+        (job) =>
+          job.title?.toLowerCase().includes(searchLower) ||
+          false ||
+          job.company?.toLowerCase().includes(searchLower) ||
+          false,
       );
     }
 
-    if (args.location && args.location !== 'all') {
-      jobApplications = jobApplications.filter(job => job.location === args.location);
+    if (args.location && args.location !== "all") {
+      jobApplications = jobApplications.filter(
+        (job) => job.location === args.location,
+      );
     }
 
-    if (args.status && args.status !== 'all') {
-      jobApplications = jobApplications.filter(job => job.status === args.status);
+    if (args.status && args.status !== "all") {
+      jobApplications = jobApplications.filter(
+        (job) => job.status === args.status,
+      );
     }
 
     if (args.dateFrom || args.dateTo) {
-      jobApplications = jobApplications.filter(job => {
+      jobApplications = jobApplications.filter((job) => {
         if (!job.appliedDate) return false;
 
         const jobDate = new Date(job.appliedDate);
@@ -204,17 +211,18 @@ export const getFilteredJobApplicationsForUser = query({
     jobApplications.sort((a, b) => {
       // Handle cases where appliedDate might be missing
       if (!a.appliedDate && !b.appliedDate) {
-        return b.createdAt - a.createdAt;
+        return b._creationTime - a._creationTime;
       }
       if (!a.appliedDate) return 1; // Put entries without applied date at the end
       if (!b.appliedDate) return -1;
 
       // Compare applied dates first
-      const dateComparison = new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
+      const dateComparison =
+        new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
 
       // If applied dates are the same, sort by createdAt (most recent first)
       if (dateComparison === 0) {
-        return b.createdAt - a.createdAt;
+        return b._creationTime - a._creationTime;
       }
 
       return dateComparison;
@@ -255,7 +263,7 @@ export const getUniqueLocations = query({
       .collect();
 
     const locations = jobApplications
-      .map(job => job.location)
+      .map((job) => job.location)
       .filter((location): location is string => Boolean(location))
       .filter((location, index, array) => array.indexOf(location) === index)
       .sort();

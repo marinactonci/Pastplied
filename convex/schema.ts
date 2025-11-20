@@ -20,7 +20,6 @@ const schema = defineSchema({
       v.literal("rejected"),
       v.literal("accepted"),
     ),
-    createdAt: v.number(),
   })
     .index("by_user", ["userId"])
     .index("by_user_applied_date", ["userId", "appliedDate"]),
