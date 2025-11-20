@@ -28,10 +28,10 @@ export async function POST(request: NextRequest) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const visibleText = extractJobText(html);
-
+    
     const prompt = `
 You are an AI assistant that extracts job posting info.
 If the provided link is not a job posting, return an empty string.
@@ -58,7 +58,7 @@ ${visibleText.slice(0, 10000)}
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const text = response.text();
+    const text = await response.text();
 
     const parts = text.split(",").map((part) => part.trim());
 
