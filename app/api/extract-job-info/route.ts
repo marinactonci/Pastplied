@@ -1,19 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import * as cheerio from "cheerio";
-
-function extractJobText(html: string) {
-  const $ = cheerio.load(html);
-  return $("body").text().replace(/\s+/g, " ").trim();
-}
 
 export async function POST(request: NextRequest) {
   try {
-    const { html } = await request.json();
+    const { markdown } = await request.json();
 
-    if (!html) {
+    if (!markdown) {
       return NextResponse.json(
-        { error: "HTML content is required" },
+        { error: "Markdown content is required" },
         { status: 400 },
       );
     }
@@ -29,13 +23,11 @@ export async function POST(request: NextRequest) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
-    const visibleText = extractJobText(html);
     
     const prompt = `
 You are an AI assistant that extracts job posting info.
 If the provided link is not a job posting, return an empty string.
-You will be given a job posting HTML content.
+  You will be given job posting content in markdown format.
 Languages that the job postings are in can vary so be aware of that.
 Typically, location is a city or can be a country but remote. In that case, it should be mentioned as "Country (Remote)".
 If the location is not specified or it is unclear or what you think it is but it isn't a city, return "Not specified".
@@ -51,9 +43,9 @@ Job title, Company name, Location
 If any of the fields are not available, return an empty string for that field.
 If the job posting is not available, return a string with the value "Invalid job posting".
 
-Job posting text:
+Job posting markdown:
 """
-${visibleText.slice(0, 10000)}
+${markdown.slice(0, 10000)}
 """`;
 
     const result = await model.generateContent(prompt);

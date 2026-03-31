@@ -24,7 +24,7 @@ export async function getJobListingData(url: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ html: fetchData.html }),
+      body: JSON.stringify({ markdown: fetchData.markdown }),
     });
 
     if (!extractRes.ok) {
