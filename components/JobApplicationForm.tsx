@@ -22,6 +22,7 @@ import { getJobListingData } from "@/lib/ai";
 import { createJobSchema } from "@/schemas/createJobApplication";
 import { toast } from "sonner";
 import { useJobApplicationContext } from "@/contexts/JobApplicationContext";
+import AddManualJobButton from "@/components/AddManualJobButton";
 
 export default function JobApplicationForm() {
   const createJob = useMutation(api.jobApplications.createJobApplication);
@@ -92,9 +93,12 @@ export default function JobApplicationForm() {
 
   return (
     <div className="space-y-4">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 py-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4 py-4">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="flex flex-col md:flex-row md:items-center gap-4 w-full"
+          >
             <FormField
               control={form.control}
               name="jobLink"
@@ -156,9 +160,12 @@ export default function JobApplicationForm() {
             >
               {isLoading ? "Processing..." : "Submit"}
             </Button>
-          </div>
-        </form>
-      </Form>
+
+          </form>
+        </Form>
+
+        <AddManualJobButton />
+      </div>
     </div>
   );
 }
